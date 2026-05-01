@@ -1,8 +1,21 @@
 export interface Session {
-  id: string;
+  _id: string;
+  id?: string;
   title: string;
-  date: string;
-  duration: string;
+  date?: string;
+  duration?: string | number;
+  status?: 'recording' | 'completed';
+  createdAt?: string;
+  similarity?: SimilarityState | null;
+}
+
+export interface TranscriptLine {
+  lineIndex: number;
+  text: string;
+  speaker: number;
+  startTimeSec: number;
+  endTimeSec: number;
+  isFinal: boolean;
 }
 
 export interface SOAPItem {
@@ -40,4 +53,26 @@ export interface SOAPReport {
   assessment: SOAPItem[];
   plan: SOAPItem[];
   flags: Flag[];
+}
+
+export interface SOAPReportVariants {
+  long: SOAPReport;
+  short: SOAPReport;
+}
+
+export type StoredSOAPReport = SOAPReport | SOAPReportVariants;
+
+export interface SimilarSession {
+  sessionId: string;
+  score: number;
+  title: string;
+  createdAt: string;
+  preview: string;
+}
+
+export interface SimilarityState {
+  sourceText?: string;
+  embeddingModel?: string | null;
+  embeddingUpdatedAt?: string | null;
+  similarSessions?: SimilarSession[];
 }

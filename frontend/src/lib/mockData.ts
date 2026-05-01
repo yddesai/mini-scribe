@@ -1,6 +1,7 @@
 import { Session, SOAPReport } from "./types";
 
 export const MOCK_SESSION: Session = {
+  _id: "1",
   id: "1",
   title: "Session Oct 24, 5:21 PM",
   date: "24 Oct 2025 at 17:21",
@@ -9,10 +10,10 @@ export const MOCK_SESSION: Session = {
 
 export const SESSIONS_LIST: Session[] = [
   MOCK_SESSION,
-  { id: "2", title: "Session Oct 24, 2:15 PM", date: "24 Oct 2025 at 14:15", duration: "12:05" },
-  { id: "3", title: "Follow-up: John Doe", date: "23 Oct 2025 at 09:30", duration: "08:45" },
-  { id: "4", title: "New Patient Consultation", date: "22 Oct 2025 at 11:00", duration: "15:20" },
-  { id: "5", title: "Evening Rounds", date: "21 Oct 2025 at 18:45", duration: "25:10" },
+  { _id: "2", id: "2", title: "Session Oct 24, 2:15 PM", date: "24 Oct 2025 at 14:15", duration: "12:05" },
+  { _id: "3", id: "3", title: "Follow-up: John Doe", date: "23 Oct 2025 at 09:30", duration: "08:45" },
+  { _id: "4", id: "4", title: "New Patient Consultation", date: "22 Oct 2025 at 11:00", duration: "15:20" },
+  { _id: "5", id: "5", title: "Evening Rounds", date: "21 Oct 2025 at 18:45", duration: "25:10" },
 ];
 
 export const MOCK_TRANSCRIPT_LINES = [

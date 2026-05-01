@@ -4,7 +4,7 @@ import { SOAPReport } from '../../lib/types';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface ExportMenuProps {
-  mockSoap: SOAPReport;
+  mockSoap: SOAPReport | null;
 }
 
 export const ExportMenu: React.FC<ExportMenuProps> = ({ mockSoap }) => {

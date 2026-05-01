@@ -3,6 +3,7 @@ import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import { sessionsRouter } from './src/routes/sessions.js';
 import { setupSockets } from './src/socket.js';
 
@@ -31,8 +32,18 @@ app.use('/api/sessions', sessionsRouter);
 // Socket setup
 setupSockets(io);
 
+// Connect to MongoDB then start server
 const port = process.env.PORT || 3000;
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/miniscribe';
 
-httpServer.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+mongoose.connect(mongoUri)
+    .then(() => {
+        console.log('Connected to MongoDB');
+        httpServer.listen(port, () => {
+            console.log(`Server is running on port ${port}`);
+        });
+    })
+    .catch((err) => {
+        console.error('Failed to connect to MongoDB:', err);
+        process.exit(1);
+    });
