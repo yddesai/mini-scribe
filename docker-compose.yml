@@ -1,0 +1,50 @@
+services:
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongodb_data:/data/db
+
+  similarity:
+    build:
+      context: ./similarity_service
+    image: ${DOCKERHUB_NAMESPACE:-local}/mini-scribe-similarity:${TAG:-latest}
+    restart: unless-stopped
+    environment:
+      SIMILARITY_EMBEDDING_MODEL: ${SIMILARITY_EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+      SIMILARITY_DATA_DIR: /app/data
+    volumes:
+      - similarity_data:/app/data
+
+  backend:
+    build:
+      context: ./backend
+    image: ${DOCKERHUB_NAMESPACE:-local}/mini-scribe-backend:${TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+      - similarity
+    environment:
+      PORT: 3000
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017/miniscribe}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      SIMILARITY_SERVICE_URL: http://similarity:8000
+      GOOGLE_APPLICATION_CREDENTIALS: /app/secrets/gcp-service-account.json
+    volumes:
+      - backend_uploads:/app/uploads
+      - ${GOOGLE_APPLICATION_CREDENTIALS_HOST_PATH:-./secrets/gcp-service-account.json}:/app/secrets/gcp-service-account.json:ro
+
+  frontend:
+    build:
+      context: ./frontend
+    image: ${DOCKERHUB_NAMESPACE:-local}/mini-scribe-frontend:${TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+
+volumes:
+  mongodb_data:
+  backend_uploads:
+  similarity_data:

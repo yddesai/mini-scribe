@@ -58,7 +58,7 @@ export default function App() {
 
   // Initialize socket connection
   useEffect(() => {
-    socketRef.current = io('http://localhost:3000');
+    socketRef.current = io(import.meta.env.VITE_API_URL || '/');
     
     socketRef.current.on('transcript_update', (data: TranscriptLine) => {
       if (data.isFinal && data.text.trim()) {

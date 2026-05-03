@@ -149,7 +149,7 @@ sessionsRouter.post('/:id/report', async (req, res) => {
 
         const reportUpdate: Record<string, unknown> = {
             report,
-            'similarity.sourceText': similaritySourceText,
+            similarity: { sourceText: similaritySourceText },
         };
 
         let similarSessions: Array<{
@@ -187,10 +187,12 @@ sessionsRouter.post('/:id/report', async (req, res) => {
                 { _id: req.params.id },
                 {
                     $set: {
-                        'similarity.sourceText': similaritySourceText,
-                        'similarity.embeddingModel': upsertResult.embeddingModel,
-                        'similarity.embeddingUpdatedAt': new Date(),
-                        'similarity.similarSessions': similarSessions,
+                        similarity: {
+                            sourceText: similaritySourceText,
+                            embeddingModel: upsertResult.embeddingModel,
+                            embeddingUpdatedAt: new Date(),
+                            similarSessions: similarSessions,
+                        }
                     },
                 },
             );
