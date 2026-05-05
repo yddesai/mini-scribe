@@ -28,19 +28,7 @@ for past encounters.
 
 ## Architecture
 
-The application is built using a modern microservices architecture:
-
-- **Frontend:** React application that handles audio recording, real-time
-  feedback, synchronized transcript playback, and displaying the finalized SOAP
-  notes.
-- **Backend:** Node.js / Express application that orchestrates the workflow. It
-  handles audio streaming, interacts with Google STT and Gemini APIs, and
-  manages the primary business logic.
-- **Database:** MongoDB is used for persistent storage of user sessions,
-  transcripts, and finalized documentation.
-- **Similarity Service:** A Python-based service utilizing `FAISS` and
-  `sentence-transformers` to provide fast, vector-based similarity search over
-  medical text embeddings.
+![alt text](image.png)
 
 ## Local Development
 
